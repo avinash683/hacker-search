@@ -2,6 +2,9 @@ import { createTheme } from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
 
 export const lightTheme = {
+  typography:{
+    fontFamily: 'Open Sans',
+  },
   palette: {
     type: "light",
     primary: blue,
@@ -22,6 +25,9 @@ export const lightTheme = {
 };
 
 export const  darkTheme = {
+  typography:{
+    fontFamily: 'Open Sans',
+  },
   palette: {
     type: "dark",
     primary: blue,

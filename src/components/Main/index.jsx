@@ -1,14 +1,13 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {alpha, makeStyles} from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
-import InputBase from '@material-ui/core/InputBase';
-import SearchIcon from '@material-ui/icons/Search';
 import hackerLogo from '../../assets/hacker_logo.png'
 import {getRecentSearchAction} from "../../store/actions/config";
 import {useDispatch, useSelector} from "react-redux";
+import AutocompleteSearch from "../AutocompleteSearch";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -72,16 +71,20 @@ const useStyles = makeStyles((theme) => ({
             display: 'none',
         },
     },
+    toolbar: theme.mixins.toolbar,
+    content: {
+        flexGrow: 1,
+        padding: theme.spacing(3),
+    },
 }));
 
 function Main(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {theme, setTheme, icon} = props
-    const searchResults = useSelector((state) => state.configs.recentSearch);
-
+    const [searchQuery, setSearchQuery] = useState("");
     useEffect(() => {
-        dispatch(getRecentSearchAction());
+        dispatch(getRecentSearchAction(searchQuery));
     }, []);
 
     return (
@@ -107,17 +110,7 @@ function Main(props) {
                         Hacker Search
                     </Typography>
                     <div className={classes.search}>
-                        <div className={classes.searchIcon}>
-                            <SearchIcon/>
-                        </div>
-                        <InputBase
-                            placeholder="Search…"
-                            classes={{
-                                root: classes.inputRoot,
-                                input: classes.inputInput,
-                            }}
-                            inputProps={{'aria-label': 'search'}}
-                        />
+                        <AutocompleteSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
                     </div>
                     <div className={classes.grow}/>
                     <IconButton

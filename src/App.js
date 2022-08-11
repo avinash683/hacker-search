@@ -13,7 +13,7 @@ function App() {
     const appliedTheme = createTheme(theme ? lightTheme : darkTheme);
 
     return (
-    <div className="App">
+    <div>
         <ThemeProvider theme={appliedTheme}>
           <Main theme={theme} setTheme={setTheme} icon={icon}/>
         </ThemeProvider>
