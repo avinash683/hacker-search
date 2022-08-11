@@ -1,7 +1,7 @@
 import { createTheme } from "@material-ui/core";
 import blue from "@material-ui/core/colors/blue";
 
-export const lightTheme = createTheme({
+export const lightTheme = {
   palette: {
     type: "light",
     primary: blue,
@@ -19,9 +19,9 @@ export const lightTheme = createTheme({
   shape:{
     borderRadius:5
   }
-});
+};
 
-export const  darkTheme = createTheme({
+export const  darkTheme = {
   palette: {
     type: "dark",
     primary: blue,
@@ -39,4 +39,4 @@ export const  darkTheme = createTheme({
   shape:{
     borderRadius:5
   }
-});
+};
