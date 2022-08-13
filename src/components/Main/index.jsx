@@ -141,7 +141,7 @@ function Main(props) {
                 {searchQuery
                     ?  <HackerDashboard setSearchQuery={setSearchQuery} searchQuery={searchQuery}/>
                     :  <Box display="flex">
-                        <Box p={1} flexGrow={1}>
+                        <Box p={1} flexGrow={1} style={{width:"100%"}}>
                             <div>
                                 <BrowserRouter>
                                     <Switch>
