@@ -67,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
     },
     containerPaddding: {
         [theme.breakpoints.down("md")]: {
-            padding: 0,
+          padding: theme.spacing(2),
         },
     },
     toolbar: theme.mixins.toolbar,

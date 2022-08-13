@@ -66,11 +66,11 @@ const useStyles = makeStyles({
                 alignItems="flex-start"
                 spacing={2}
             >
-                {searchResults.filter((value) => value.title && value).map((oneDetail, index) => <Grid item xs={4} key={`${oneDetail.objectId}-${index}`}>
-                    <Card variant="outlined" elevation={0} className='card' onClick={()=> handleView(oneDetail)}>
+                {searchResults.filter((value) => value.title && value).map((oneDetail, index) => <Grid item md={4} xs={12} key={`${oneDetail.objectId}-${index}`}>
+                    <Card variant="outlined" elevation={0} className='card' onClick={(e)=> handleView(oneDetail)}>
                         <CardHeader
                             action={
-                                <IconButton aria-label="settings" href={oneDetail.url} target="_blank">
+                                <IconButton aria-label="settings" href={oneDetail.url} target="_blank" >
                                     <LinkIcon />
                                 </IconButton>
                             }
