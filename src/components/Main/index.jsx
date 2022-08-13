@@ -6,7 +6,13 @@ import IconButton from '@material-ui/core/IconButton';
 import Typography from '@material-ui/core/Typography';
 import hackerLogo from '../../assets/hacker_logo.png'
 import {getRecentSearchAction} from "../../store/actions/config";
-import {useDispatch, useSelector} from "react-redux";
+import {useDispatch} from "react-redux";
+import {BrowserRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
+import {Box, Container, Grid} from "@material-ui/core";
+import HackerDashboard from "../HackerDashboard";
+import InputBase from "@material-ui/core/InputBase";
+import SearchIcon from '@material-ui/icons/Search';
+import HackerView from "../HackerView";
 import AutocompleteSearch from "../AutocompleteSearch";
 
 const useStyles = makeStyles((theme) => ({
@@ -51,7 +57,6 @@ const useStyles = makeStyles((theme) => ({
     },
     inputInput: {
         padding: theme.spacing(1, 1, 1, 0),
-        // vertical padding + font size from searchIcon
         paddingLeft: `calc(1em + ${theme.spacing(4)}px)`,
         transition: theme.transitions.create('width'),
         width: '100%',
@@ -59,16 +64,9 @@ const useStyles = makeStyles((theme) => ({
             width: '20ch',
         },
     },
-    sectionDesktop: {
-        display: 'none',
-        [theme.breakpoints.up('md')]: {
-            display: 'flex',
-        },
-    },
-    sectionMobile: {
-        display: 'flex',
-        [theme.breakpoints.up('md')]: {
-            display: 'none',
+    containerPaddding: {
+        [theme.breakpoints.down("md")]: {
+            padding: 0,
         },
     },
     toolbar: theme.mixins.toolbar,
@@ -76,27 +74,42 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    root2: {
+        height: "88%",
+        position: "absolute",
+        width: "calc(100% - 530px)",
+        "@media (max-width: 1458px) and (min-width: 1280px)": {
+            width: "calc(100% - 440px)",
+        },
+        [theme.breakpoints.down("md")]: {
+            width: "calc(100% - 16px)",
+        },
+        maxWidth: "1390px",
+    },
 }));
 
 function Main(props) {
     const classes = useStyles();
     const dispatch = useDispatch();
     const {theme, setTheme, icon} = props
+    const history = useHistory();
     const [searchQuery, setSearchQuery] = useState("");
+    console.log('called Main', history.location)
     useEffect(() => {
         dispatch(getRecentSearchAction(searchQuery));
-    }, []);
+    }, [searchQuery]);
 
     return (
         <div className={classes.grow}>
             <AppBar position="static" color="default">
-                <Toolbar>
+                <Container maxWidth="lg" className={classes.containerPaddding}>
+                <Toolbar disableGutters>
                     <IconButton
                         edge="start"
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
-                    >
+                        onClick={() => history.push("/search")}>
                         <img
                             src={hackerLogo}
                             style={{
@@ -110,7 +123,19 @@ function Main(props) {
                         Hacker Search
                     </Typography>
                     <div className={classes.search}>
-                        <AutocompleteSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>
+                            <div className={classes.searchIcon}>
+                                <SearchIcon />
+                            </div>
+                            <InputBase
+                                onChange={(e) => setSearchQuery(e.target.value)}
+                                placeholder={"Search hacker news ... "}
+                                classes={{
+                                    root: classes.inputRoot,
+                                    input: classes.inputInput,
+                                }}
+                                inputProps={{ 'aria-label': 'search' }}
+                            />
+                        {/*<AutocompleteSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>*/}
                     </div>
                     <div className={classes.grow}/>
                     <IconButton
@@ -122,7 +147,31 @@ function Main(props) {
                         {icon}
                     </IconButton>
                 </Toolbar>
+                </Container>
             </AppBar>
+            <Container maxWidth="lg" className={classes.containerPaddding}>
+                {searchQuery
+                    ?  <HackerDashboard setSearchQuery={setSearchQuery}/>
+                    :  <Box display="flex">
+                        <Box p={1} flexGrow={1}>
+                            <div>
+                                <BrowserRouter>
+                                    <Switch>
+                                        <Redirect exact from="/" to="/search" />
+                                        <Route path="/search">
+                                            <HackerDashboard/>
+                                        </Route>
+                                        <Route path="/news/:title/:id">
+                                            <HackerView/>
+                                        </Route>
+                                    </Switch>
+                                </BrowserRouter>
+                            </div>
+                        </Box>
+                    </Box>
+                }
+
+            </Container>
 
         </div>
     );

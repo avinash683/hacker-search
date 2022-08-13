@@ -10,7 +10,11 @@ export function SearchAPI({ method, endpoint, params, data, type}) {
         })
             .then((resp) => {
                 const data = resp.data || {};
-                resolve(data.hits);
+                if(type !== "search"){
+                    resolve(data)
+                }else {
+                    resolve(data.hits);
+                }
             })
             .catch((err) => {
                 console.log(JSON.stringify(err));

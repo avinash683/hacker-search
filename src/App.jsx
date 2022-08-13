@@ -8,7 +8,7 @@ import {createTheme} from "@material-ui/core";
 import {darkTheme, lightTheme} from "./themes/multipleThemes";
 
 function App() {
-    const [theme, setTheme] = useState(true);
+    const [theme, setTheme] = useState(false);
     const icon = !theme ? <FlashOnIcon /> : <FlashOffIcon />;
     const appliedTheme = createTheme(theme ? lightTheme : darkTheme);
 

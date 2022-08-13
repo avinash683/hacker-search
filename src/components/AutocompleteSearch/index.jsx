@@ -1,7 +1,7 @@
 /* eslint-disable no-use-before-define */
 import React from 'react';
 import Autocomplete from '@material-ui/lab/Autocomplete';
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import { ListItem, ListItemText, Paper} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
@@ -12,6 +12,8 @@ import FavoriteIcon from '@material-ui/icons/Favorite';
 import DateRangeIcon from '@material-ui/icons/DateRange';
 import CommentIcon from '@material-ui/icons/Comment';
 import moment from "moment";
+import {getSelectedBlogAction} from "../../store/actions/config";
+import {useHistory} from "react-router-dom";
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
@@ -32,8 +34,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function AutocompleteSearch(props) {
     const classes = useStyles();
+    const history = useHistory();
+    const dispatch = useDispatch();
     const searchResults = useSelector((state) => state.configs.recentSearch);
     const {searchQuery, setSearchQuery} = props
+    const handleView = (oneDetail) => {
+        dispatch(getSelectedBlogAction(oneDetail.objectID))
+        history.push(`/news/${oneDetail.title}/${oneDetail.objectID}`);
+    }
     return (
         <div className={classes.searchInput}>
             <Autocomplete
@@ -45,9 +53,10 @@ export default function AutocompleteSearch(props) {
                 clearOnEscape
                 options={searchResults}
                 getOptionLabel={(option) => `${option.title}`}
-                renderOption={(oneDetails) => <ListItem>
+                renderOption={(oneDetail, index) => <ListItem
+                    onClick={()=> handleView(oneDetail)}>
                     <ListItemText primary={<Typography variant="body1" >
-                        <b>{oneDetails.title ? oneDetails.title : oneDetails.story_text}</b>
+                        <b>{oneDetail.title ? oneDetail.title : oneDetail.story_text}</b>
                     </Typography>}
                                   secondary={<React.Fragment>
                                       <Typography
@@ -56,13 +65,13 @@ export default function AutocompleteSearch(props) {
                                           className={classes.inline}
                                           color="textPrimary"
                                       >
-                                          {oneDetails.author}
+                                          {oneDetail.author}
                                       </Typography>
-                                      {` — ${oneDetails.url}`}
+                                      {` — ${oneDetail.url}`}
                                       <Typography>
-                                          <FavoriteIcon fontSize="small" color="error" style={{verticalAlign:"bottom"}}/> {oneDetails.points} {" "}
-                                           <CommentIcon fontSize="small" style={{verticalAlign:"bottom"}}/> {oneDetails.num_comments}{" "}
-                                          <DateRangeIcon fontSize="small" style={{verticalAlign:"bottom"}}/> {moment(oneDetails.created_at_i).fromNow(true)}
+                                          <FavoriteIcon fontSize="small" color="error" style={{verticalAlign:"bottom"}}/> {oneDetail.points} {" "}
+                                           <CommentIcon fontSize="small" style={{verticalAlign:"bottom"}}/> {oneDetail.num_comments}{" "}
+                                          <DateRangeIcon fontSize="small" style={{verticalAlign:"bottom"}}/> {moment(oneDetail.created_at_i).fromNow(true)}
                                       </Typography>
                                   </React.Fragment>
                                   }/>
