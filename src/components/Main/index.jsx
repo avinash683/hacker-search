@@ -7,7 +7,7 @@ import Typography from '@material-ui/core/Typography';
 import hackerLogo from '../../assets/hacker_logo.png'
 import {getRecentSearchAction} from "../../store/actions/config";
 import {useDispatch} from "react-redux";
-import {BrowserRouter, Redirect, Route, Switch, useHistory} from 'react-router-dom';
+import {BrowserRouter, Redirect, Route, Switch, useHistory, useLocation, withRouter} from 'react-router-dom';
 import {Box, Container, Grid} from "@material-ui/core";
 import HackerDashboard from "../HackerDashboard";
 import InputBase from "@material-ui/core/InputBase";
@@ -70,22 +70,6 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     toolbar: theme.mixins.toolbar,
-    content: {
-        flexGrow: 1,
-        padding: theme.spacing(3),
-    },
-    root2: {
-        height: "88%",
-        position: "absolute",
-        width: "calc(100% - 530px)",
-        "@media (max-width: 1458px) and (min-width: 1280px)": {
-            width: "calc(100% - 440px)",
-        },
-        [theme.breakpoints.down("md")]: {
-            width: "calc(100% - 16px)",
-        },
-        maxWidth: "1390px",
-    },
 }));
 
 function Main(props) {
@@ -100,7 +84,7 @@ function Main(props) {
 
     return (
         <div className={classes.grow}>
-            <AppBar position="static" color="default">
+            <AppBar position="fixed" color="default">
                 <Container maxWidth="lg" className={classes.containerPaddding}>
                 <Toolbar disableGutters>
                     <IconButton
@@ -108,7 +92,10 @@ function Main(props) {
                         className={classes.menuButton}
                         color="inherit"
                         aria-label="open drawer"
-                        onClick={() => history.push("/search")}>
+                        onClick={() => {
+                            history.push("/search");
+                            window.location.reload();
+                        }}>
                         <img
                             src={hackerLogo}
                             style={{
@@ -149,6 +136,7 @@ function Main(props) {
                 </Container>
             </AppBar>
             <Container maxWidth="lg" className={classes.containerPaddding}>
+                <Toolbar/>
                 {searchQuery
                     ?  <HackerDashboard setSearchQuery={setSearchQuery}/>
                     :  <Box display="flex">
@@ -176,4 +164,4 @@ function Main(props) {
     );
 }
 
-export default Main
+export default withRouter(Main);

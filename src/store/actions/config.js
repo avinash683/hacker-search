@@ -1,11 +1,19 @@
 import {searchHackerNews, viewHackerDetails} from "../../services/backendAPI";
 
 export const getRecentSearchAction = (queryString) => (dispatch) => {
+    dispatch({
+        type: 'LOADING_STATE',
+        payload: true
+    })
     searchHackerNews(queryString).then((response) => {
         dispatch({
             type: "SET_RECENT_SEARCH",
             payload: response,
         });
+        dispatch({
+            type: 'LOADING_STATE',
+            payload: false
+        })
     }).catch((err) => console.log("",err));
 };
 

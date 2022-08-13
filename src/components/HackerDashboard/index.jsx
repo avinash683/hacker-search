@@ -13,6 +13,7 @@ import { useHistory} from "react-router-dom";
 import IconButton from "@material-ui/core/IconButton";
 import LinkIcon from '@material-ui/icons/Link';
 import {getRecentSearchAction, getSelectedBlogAction} from "../../store/actions/config";
+import Loader from "../Loader";
 const useStyles = makeStyles({
     grow: {
         flexGrow: 1,
@@ -22,6 +23,7 @@ const useStyles = makeStyles({
     const classes = useStyles();
      const history = useHistory();
      const dispatch = useDispatch();
+     const isLoading = useSelector(state => state.configs.loading);
      const searchResults = useSelector((state) => state.configs.recentSearch);
      const handleView = (oneDetail) => {
          dispatch(getSelectedBlogAction(oneDetail.objectID))
@@ -31,51 +33,54 @@ const useStyles = makeStyles({
     return <>
         <CssBaseline/>
         <br/>
-        <Grid
-            container
-            direction="row"
-            justifyContent="flex-start"
-            alignItems="flex-start"
-            spacing={2}
-        >
-            {searchResults.map((oneDetail, index) => <Grid item xs={4} key={`${oneDetail.objectId}-${index}`}>
-                <Card variant="outlined" elevation={0}>
-                    <CardHeader
-                        action={
-                            <IconButton aria-label="settings" href={oneDetail.url} target="_blank">
-                                <LinkIcon />
+        {isLoading
+            ? <Loader/>
+            : <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                spacing={2}
+            >
+                {searchResults.filter((value) => value.title && value).map((oneDetail, index) => <Grid item xs={4} key={`${oneDetail.objectId}-${index}`}>
+                    <Card variant="outlined" elevation={0} className='card'>
+                        <CardHeader
+                            action={
+                                <IconButton aria-label="settings" href={oneDetail.url} target="_blank">
+                                    <LinkIcon />
+                                </IconButton>
+                            }
+                            title={<Typography gutterBottom variant="body1" component="h2">
+                                <b> {oneDetail.title ? oneDetail.title : oneDetail.story_text}</b>
+                            </Typography>}
+                            subheader={oneDetail.author}
+                        />
+                        <CardMedia
+                            className={classes.media}
+                            image="/static/images/cards/paella.jpg"
+                            title="Paella dish"
+                        />
+                        <CardActions disableSpacing>
+                            <IconButton aria-label="add to favorites">
+                                <FavoriteIcon fontSize="small" color="error" style={{verticalAlign:"bottom"}}/>
                             </IconButton>
-                        }
-                        title={<Typography gutterBottom variant="body1" component="h2">
-                            <b> {oneDetail.title ? oneDetail.title : oneDetail.story_text}</b>
-                        </Typography>}
-                        subheader={oneDetail.author}
-                    />
-                    <CardMedia
-                        className={classes.media}
-                        image="/static/images/cards/paella.jpg"
-                        title="Paella dish"
-                    />
-                    <CardActions disableSpacing>
-                        <IconButton aria-label="add to favorites">
-                            <FavoriteIcon fontSize="small" color="error" style={{verticalAlign:"bottom"}}/>
-                        </IconButton>
-                        {oneDetail.points} {" "}
-                        <IconButton aria-label="share">
-                            <CommentIcon fontSize="small" style={{verticalAlign:"bottom"}}/>
-                        </IconButton>
-                        {oneDetail.num_comments}{" "}
-                        <div className={classes.grow}/>
-                        <Button variant="outlined" size="small" color="primary"
-                                onClick={()=> handleView(oneDetail)}
-                                style={{align:'right', textTransform:"capitalize"}}>
-                            Learn More
-                        </Button>
-                    </CardActions>
-                </Card>
-            </Grid>)}
+                            {oneDetail.points} {" "}
+                            <IconButton aria-label="share">
+                                <CommentIcon fontSize="small" style={{verticalAlign:"bottom"}}/>
+                            </IconButton>
+                            {oneDetail.num_comments}{" "}
+                            <div className={classes.grow}/>
+                            <Button variant="outlined" size="small" color="primary"
+                                    onClick={()=> handleView(oneDetail)}
+                                    style={{align:'right', textTransform:"capitalize"}}>
+                                View Details
+                            </Button>
+                        </CardActions>
+                    </Card>
+                </Grid>)}
+            </Grid>
+        }
 
-        </Grid>
     </>
 }
 export default HackerDashboard;

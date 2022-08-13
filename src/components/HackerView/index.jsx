@@ -1,19 +1,15 @@
-import React, {useEffect, useState} from "react";
-import {Link, useParams} from "react-router-dom";
-import {viewHackerDetails} from "../../services/backendAPI";
+import React, {useEffect} from "react";
+import { useParams} from "react-router-dom";
 import {useDispatch, useSelector} from "react-redux";
 import {getSelectedBlogAction} from "../../store/actions/config";
-import {Chip, CssBaseline, Divider, Grid} from "@material-ui/core";
+import { CssBaseline, Divider, Grid} from "@material-ui/core";
 import Typography from "@material-ui/core/Typography";
-import Button from "@material-ui/core/Button";
 import {makeStyles} from "@material-ui/core/styles";
 import moment from "moment";
 import IconButton from "@material-ui/core/IconButton";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import CommentIcon from "@material-ui/icons/Comment";
 import Comments from "./Comments";
-import LinkIcon from "@material-ui/icons/Link";
-import Highlighter from "react-highlight-words";
 import Loader from "../Loader";
 
 const useStyles = makeStyles((theme) => ({
