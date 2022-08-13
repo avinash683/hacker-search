@@ -43,7 +43,7 @@ const useStyles = makeStyles({
                 spacing={2}
             >
                 {searchResults.filter((value) => value.title && value).map((oneDetail, index) => <Grid item xs={4} key={`${oneDetail.objectId}-${index}`}>
-                    <Card variant="outlined" elevation={0} className='card'>
+                    <Card variant="outlined" elevation={0} className='card' onClick={()=> handleView(oneDetail)}>
                         <CardHeader
                             action={
                                 <IconButton aria-label="settings" href={oneDetail.url} target="_blank">
@@ -70,11 +70,11 @@ const useStyles = makeStyles({
                             </IconButton>
                             {oneDetail.num_comments}{" "}
                             <div className={classes.grow}/>
-                            <Button variant="outlined" size="small" color="primary"
+                           {/* <Button variant="outlined" size="small" color="primary"
                                     onClick={()=> handleView(oneDetail)}
                                     style={{align:'right', textTransform:"capitalize"}}>
                                 View Details
-                            </Button>
+                            </Button>*/}
                         </CardActions>
                     </Card>
                 </Grid>)}
