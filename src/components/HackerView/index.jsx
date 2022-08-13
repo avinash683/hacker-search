@@ -15,7 +15,7 @@ import Loader from "../Loader";
 const useStyles = makeStyles((theme) => ({
     root: {
         width: '100%',
-        padding:theme.spacing(2),
+        // padding:theme.spacing(2),
         backgroundColor: theme.palette.background.paper,
     },
     chip: {
@@ -47,43 +47,52 @@ function HackerView(props) {
         <br/>
         {isLoading
             ? <Loader/>
-            : <>
-                <div className={classes.root}>
-                    <div className={classes.section1}>
-                        <Grid container alignItems="center">
-                            <Grid item xs>
-                                <Typography gutterBottom variant="body2">
-                                    {moment(blogDetails.created_at).fromNow()}
-                                </Typography>
-                                <Typography gutterBottom variant="h4">
-                                    {blogDetails.title}
-                                </Typography>
+            : <Grid
+                container
+                direction="row"
+                justifyContent="flex-start"
+                alignItems="flex-start"
+                spacing={2}
+            >
+                <Grid item xs>
+                    <div className={classes.root}>
+                        <div className={classes.section1}>
+                            <Grid container alignItems="center">
+                                <Grid item xs>
+                                    <Typography gutterBottom variant="body2">
+                                        {moment(blogDetails.created_at).fromNow()}
+                                    </Typography>
+                                    <Typography gutterBottom variant="h4">
+                                        {blogDetails.title}
+                                    </Typography>
+                                </Grid>
                             </Grid>
-                        </Grid>
+                        </div>
+                        <Divider variant="middle" />
+                        <div className={classes.section2}>
+                            { blogDetails?.points &&
+                                <>
+                                    <IconButton aria-label="add to favorites">
+                                        <FavoriteIcon fontSize="small" color="error" style={{verticalAlign:"bottom"}}/>
+                                    </IconButton>
+                                    {blogDetails.points} Likes {" "}
+                                </>
+                            }
+                            { blogDetails?.num_comments &&
+                                <>
+                                    <IconButton aria-label="share">
+                                        <CommentIcon fontSize="small" style={{verticalAlign:"bottom"}}/>
+                                    </IconButton>
+                                    {blogDetails.num_comments} Comments{" "}
+                                </>
+                            }
+                        </div>
                     </div>
-                    <Divider variant="middle" />
-                    <div className={classes.section2}>
-                        { blogDetails?.points &&
-                            <>
-                                <IconButton aria-label="add to favorites">
-                                    <FavoriteIcon fontSize="small" color="error" style={{verticalAlign:"bottom"}}/>
-                                </IconButton>
-                                {blogDetails.points} Likes {" "}
-                            </>
-                        }
-                        { blogDetails?.num_comments &&
-                            <>
-                                <IconButton aria-label="share">
-                                    <CommentIcon fontSize="small" style={{verticalAlign:"bottom"}}/>
-                                </IconButton>
-                                {blogDetails.num_comments} Comments{" "}
-                            </>
-                        }
-                    </div>
-                </div>
-                <br/>
-                {blogDetails?.children && blogDetails.children.map((item, index) => <Comments key={index} {...item} />)}
-            </>}
+                    <br/>
+                    {blogDetails?.children && blogDetails.children.map((item, index) => <Comments key={index} {...item} />)}
+                </Grid>
+
+            </Grid>}
     </div>
 }
 
