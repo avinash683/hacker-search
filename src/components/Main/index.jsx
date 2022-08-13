@@ -14,6 +14,7 @@ import InputBase from "@material-ui/core/InputBase";
 import SearchIcon from '@material-ui/icons/Search';
 import HackerView from "../HackerView";
 import AutocompleteSearch from "../AutocompleteSearch";
+import {Dashboard} from "@material-ui/icons";
 
 const useStyles = makeStyles((theme) => ({
     grow: {
@@ -93,8 +94,8 @@ function Main(props) {
                         color="inherit"
                         aria-label="open drawer"
                         onClick={() => {
-                            history.push("/search");
-                            window.location.reload();
+                            history.push("/search", <HackerDashboard/>);
+                            // window.location.reload();
                         }}>
                         <img
                             src={hackerLogo}
