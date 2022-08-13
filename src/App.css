@@ -11,3 +11,8 @@
   box-shadow: -1px 1px 20px 0px #03a9ff59;
   cursor: pointer;
 }
+
+.match {
+  color: #03a9f4;
+  font-weight: bolder;
+}

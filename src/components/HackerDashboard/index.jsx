@@ -19,7 +19,7 @@ const useStyles = makeStyles({
         flexGrow: 1,
     },
 });
- function HackerDashboard({setSearchQuery}) {
+ function HackerDashboard({setSearchQuery, searchQuery}) {
     const classes = useStyles();
      const history = useHistory();
      const dispatch = useDispatch();
@@ -30,7 +30,31 @@ const useStyles = makeStyles({
          history.push(`/news/${oneDetail.title}/${oneDetail.objectID}`);
          setSearchQuery("")
      }
-    return <>
+
+     const buildPieces = (str, match) => {
+         let pieces = [];
+         let index,
+             pos = 0;
+         while ((index = str.indexOf(match, pos)) >= 0) {
+             if (pos !== index) {
+                 pieces.push(str.substr(pos, index - pos));
+             }
+             pieces.push(match);
+             pos = index + match.length;
+         }
+         if (pos < str.length) {
+             pieces.push(str.substr(pos));
+         }
+         return <span>{pieces.map(item => {
+             if(item === match){
+                 return <span className="match">{item}</span>
+             }else{
+                 return item
+             }
+         })}</span>;
+     }
+
+     return <>
         <CssBaseline/>
         <br/>
         {isLoading
@@ -51,7 +75,7 @@ const useStyles = makeStyles({
                                 </IconButton>
                             }
                             title={<Typography gutterBottom variant="body1" component="h2">
-                                <b> {oneDetail.title ? oneDetail.title : oneDetail.story_text}</b>
+                                <b> {oneDetail.title ? buildPieces(oneDetail.title, searchQuery) : buildPieces(oneDetail.story_text, searchQuery)}</b>
                             </Typography>}
                             subheader={oneDetail.author}
                         />

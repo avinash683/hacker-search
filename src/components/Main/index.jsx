@@ -139,7 +139,7 @@ function Main(props) {
             <Container maxWidth="lg" className={classes.containerPaddding}>
                 <Toolbar/>
                 {searchQuery
-                    ?  <HackerDashboard setSearchQuery={setSearchQuery}/>
+                    ?  <HackerDashboard setSearchQuery={setSearchQuery} searchQuery={searchQuery}/>
                     :  <Box display="flex">
                         <Box p={1} flexGrow={1}>
                             <div>
