@@ -2,7 +2,7 @@ import {SearchAPI} from "./request";
 
 function searchHackerNews(queryString) {
     return SearchAPI({
-        endpoint: `http://hn.algolia.com/api/v1/search`,
+        endpoint: `https://hn.algolia.com/api/v1/search`,
         method: 'GET',
         type:"search",
         params: {
@@ -13,7 +13,7 @@ function searchHackerNews(queryString) {
 
 function viewHackerDetails(hackerId){
     return SearchAPI({
-        endpoint: `http://hn.algolia.com/api/v1/items/${hackerId}`,
+        endpoint: `https://hn.algolia.com/api/v1/items/${hackerId}`,
         method: 'GET'
     });
 }
