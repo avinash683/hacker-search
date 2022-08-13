@@ -42,7 +42,6 @@ function HackerView(props) {
     const isLoading = useSelector(state => state.configs.loading);
 
     useEffect(() => {
-        console.log("called when id", id);
         dispatch(getSelectedBlogAction(id));
     }, [id]);
 

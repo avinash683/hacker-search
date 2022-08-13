@@ -12,7 +12,6 @@ function searchHackerNews(queryString) {
 }
 
 function viewHackerDetails(hackerId){
-    console.log('hackerId', hackerId);
     return SearchAPI({
         endpoint: `http://hn.algolia.com/api/v1/items/${hackerId}`,
         method: 'GET'

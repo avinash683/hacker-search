@@ -94,7 +94,6 @@ function Main(props) {
     const {theme, setTheme, icon} = props
     const history = useHistory();
     const [searchQuery, setSearchQuery] = useState("");
-    console.log('called Main', history.location)
     useEffect(() => {
         dispatch(getRecentSearchAction(searchQuery));
     }, [searchQuery]);
@@ -135,8 +134,8 @@ function Main(props) {
                                 }}
                                 inputProps={{ 'aria-label': 'search' }}
                             />
-                        {/*<AutocompleteSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>*/}
                     </div>
+                    {/*<AutocompleteSearch searchQuery={searchQuery} setSearchQuery={setSearchQuery}/>*/}
                     <div className={classes.grow}/>
                     <IconButton
                         edge="end"
